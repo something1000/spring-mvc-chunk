@@ -14,6 +14,7 @@ public interface UserRepository extends CrudRepository<User,Long> {
     User findByConftoken(String token);
     User findByUsername(String username);
     User findById(Long id);
+
     HashSet<User> findByBanned(Boolean banned);
     @Modifying
     @Query("update User u set u.banned = false, u.ban_date = null where u.username = ?1")

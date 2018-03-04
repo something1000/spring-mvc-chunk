@@ -29,13 +29,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/register").permitAll()
+                .antMatchers("/chunk").permitAll()
                 .antMatchers("/main").hasAnyRole("USER")
                 .antMatchers("/ban/**").hasAnyRole("ADMIN")
             .and()
             .formLogin().loginPage("/login").failureForwardUrl("/");
     }
-
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);

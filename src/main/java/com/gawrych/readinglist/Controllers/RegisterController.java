@@ -33,15 +33,6 @@ public class RegisterController {
     }
 
 
-    @RequestMapping(value="/ban/{id}")
-    public String banUser(@PathVariable("id") Long id){
-        User x = userService.findById(id);
-        x.setBanned(true);
-        x.setBan_date(LocalDate.of(2018,3,5));
-        userService.updateUser(x);
-        return "redirect:/";
-    }
-
     @RequestMapping(value="/register", method = RequestMethod.GET)
     public String registerView(Model model, User user){
         model.addAttribute("user", user);
@@ -57,27 +48,27 @@ public class RegisterController {
     @RequestMapping(value="/register", method = RequestMethod.POST)
     public String registerUser(@Valid User user, BindingResult bindingResult,Model model, HttpServletResponse httpServletResponse){
 
-       User exists = userService.findByEmail(user.getEmail());
+        User exists = userService.findByEmail(user.getEmail());
 
-       System.out.println(exists);
+        System.out.println(exists);
 
-       if(exists != null){
-           model.addAttribute("istnieje", "Wyglada na to ze uzytkownik juz istnieje");
-           return "registerView";
-       }
+        if(exists != null){
+            model.addAttribute("istnieje", "Wyglada na to ze uzytkownik juz istnieje");
+            return "registerView";
+        }
 
-       if(bindingResult.hasErrors() || !user.getPassword().equals(user.getReapeatpassword())){
-           System.out.println(bindingResult.getAllErrors());
-           return "registerView";
-       } else {
+        if(bindingResult.hasErrors() || !user.getPassword().equals(user.getReapeatpassword())){
+            System.out.println(bindingResult.getAllErrors());
+            return "registerView";
+        } else {
 
-           user.setEnabled(false);
-           user.setPassword(user.getPassword());
-           user.setConftoken(UUID.randomUUID().toString());
-           user.setEnabled(false);
+            user.setEnabled(false);
+            user.setPassword(user.getPassword());
+            user.setConftoken(UUID.randomUUID().toString());
+            user.setEnabled(false);
 
-           userService.saveUser(user);
-       }
+            userService.saveUser(user);
+        }
         return "redirect:/";
     }
 

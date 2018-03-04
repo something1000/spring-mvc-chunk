@@ -46,6 +46,10 @@ public class UserService implements UserDetailsService{
 
     public User findById(Long id){return userRepository.findById(id); }
 
+    public User findByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
+
     public Set<User> findByBanned(){return userRepository.findByBanned(true);}
 
 

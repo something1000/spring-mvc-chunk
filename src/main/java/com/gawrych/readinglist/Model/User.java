@@ -56,11 +56,12 @@ public class User implements UserDetails {
     private String conftoken;
 
 
+    public Long getId(){return id;};
+
     @ManyToMany(cascade = CascadeType.ALL)
 
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "role"))
-
     private Set<UserRole> roles;
 
    public Set<UserRole> getRoles(){

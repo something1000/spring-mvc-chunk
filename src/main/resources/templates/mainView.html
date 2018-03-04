@@ -7,6 +7,20 @@
 <div>
    <h1>Helllo world!</h1>
     <div sec:authorize="isAuthenticated()">
+
+        <form method="post" th:action="@{/chunk}">
+            <fieldset>
+                <legend>Add Chunk</legend>
+                <label for="content">Password</label>
+                <input type="text" id="authorId" name="authorId"/>
+                <input type="textarea" id="content" name="content"/>
+                <div class="form-actions">
+                    <button type="submit" class="btn">Chunk !</button>
+                </div>
+            </fieldset>
+
+        </form>
+
         This content is only shown to authenticated users.
     </div>
 
