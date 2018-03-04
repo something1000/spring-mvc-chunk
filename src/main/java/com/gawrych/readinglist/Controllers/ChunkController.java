@@ -26,7 +26,7 @@ public class ChunkController {
 
     @RequestMapping(value = "/chunk",method= RequestMethod.POST)
     public String addChunk(@Valid ChunkEntity chunk, Principal currentUser){
-        chunk.setAuthorID(userService.findByUsername(currentUser.getName()));
+        chunk.setAuthor(userService.findByUsername(currentUser.getName()));
         chunkService.saveChunk(chunk);
         return "redirect:/";
     }

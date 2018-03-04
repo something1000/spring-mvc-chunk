@@ -7,6 +7,6 @@ import java.util.Set;
 
 @Repository
 public interface ChunkRepository extends PagingAndSortingRepository<ChunkEntity, Long> {
-       public Set<ChunkEntity> findByAuthorId(Long authorId);
+       public Set<ChunkEntity> findByAuthor(User author);
        public ChunkEntity findById(Long id);
 }

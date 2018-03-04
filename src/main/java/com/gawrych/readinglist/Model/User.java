@@ -55,14 +55,20 @@ public class User implements UserDetails {
     @Column(name="conf_token")
     private String conftoken;
 
+    @OneToMany(mappedBy = "author")
+    private Set<ChunkEntity> chunks;
 
-    public Long getId(){return id;};
 
     @ManyToMany(cascade = CascadeType.ALL)
-
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "role"))
     private Set<UserRole> roles;
+
+    public Long getId(){return id;};
+
+    public Set<ChunkEntity> getChunks(){
+        return chunks;
+    }
 
    public Set<UserRole> getRoles(){
         return roles;

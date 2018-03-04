@@ -3,6 +3,7 @@ package com.gawrych.readinglist.Model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="chunks")
@@ -13,11 +14,12 @@ public class ChunkEntity {
     @Column(name = "id")
     private Long id;
 
-    @NotNull
-    @Column(name = "author")
-    private User authorId;
+    @ManyToOne
+    @JoinColumn(name="author_id")
+    private User author;
 
     @NotNull
+    @Size(max=500)
     @Column(name = "content")
     private String content;
 
@@ -30,12 +32,12 @@ public class ChunkEntity {
         this.id = id;
     }
 
-    public User getAuthorID() {
-        return authorId;
+    public User getAuthor() {
+        return author;
     }
 
-    public void setAuthorID(User authorID) {
-        this.authorId = authorID;
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public String getContent() {

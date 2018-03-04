@@ -5,15 +5,14 @@
 </head>
 <body>
 <div>
-   <h1>Helllo world!</h1>
+   <h1>Helllo worldd!</h1>
     <div sec:authorize="isAuthenticated()">
 
         <form method="post" th:action="@{/chunk}">
             <fieldset>
                 <legend>Add Chunk</legend>
                 <label for="content">Password</label>
-                <input type="text" id="authorId" name="authorId"/>
-                <input type="textarea" id="content" name="content"/>
+                <textarea id="content"  name="content"> </textarea>
                 <div class="form-actions">
                     <button type="submit" class="btn">Chunk !</button>
                 </div>

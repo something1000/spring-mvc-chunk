@@ -2,6 +2,7 @@ package com.gawrych.readinglist.Services;
 
 import com.gawrych.readinglist.Model.ChunkEntity;
 import com.gawrych.readinglist.Model.ChunkRepository;
+import com.gawrych.readinglist.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,8 @@ public class ChunkService {
         this.chunkRepository = chunkRepository;
     }
 
-    public Set<ChunkEntity> findChunkByAuthorId(Long authorId){
-        return chunkRepository.findByAuthorId(authorId);
+    public Set<ChunkEntity> findChunkByAuthor(User author){
+        return chunkRepository.findByAuthor(author);
     }
 
     public ChunkEntity findChunkById(Long id){
