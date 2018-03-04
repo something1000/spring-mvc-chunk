@@ -18,7 +18,9 @@ public class UnbanSchedule {
     @Scheduled(fixedRate = 20000)
     public void unbanUsers(){
         for(User user : userService.findByBanned()){
-            userService.unbanUser(user.getUsername());
+            user.setBan_date(null);
+            user.setBanned(false);
+            userService.updateUser(user);
             System.out.println("\npassword" + user.getPassword());
             System.out.println("Unbanned " + user.getUsername());
         }

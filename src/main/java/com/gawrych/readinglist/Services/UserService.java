@@ -66,11 +66,6 @@ public class UserService implements UserDetailsService{
         userRepository.save(user);
     }
 
-    @Transactional(propagation= Propagation.REQUIRED, readOnly = false)
-    public void unbanUser(String username){
-        userRepository.unbanUser(username);
-    }
-
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED, readOnly = true)
