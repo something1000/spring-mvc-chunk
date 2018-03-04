@@ -1,4 +1,4 @@
-package com.gawrych.readinglist;
+package com.gawrych.readinglist.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

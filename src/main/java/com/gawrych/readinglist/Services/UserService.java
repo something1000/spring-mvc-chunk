@@ -1,31 +1,39 @@
-package com.gawrych.readinglist;
+package com.gawrych.readinglist.Services;
 
+import com.gawrych.readinglist.Model.RoleRepository;
+import com.gawrych.readinglist.Model.User;
+import com.gawrych.readinglist.Model.UserRepository;
+import com.gawrych.readinglist.Model.UserRole;
+import org.springframework.data.jpa.repository.Query;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.relation.Role;
-import java.util.ArrayList;
+import javax.persistence.EntityManagerFactory;
 import java.util.HashSet;
 import java.util.Set;
 
 @Service("userService")
 public class UserService implements UserDetailsService{
 
+
+
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    private UserRoleService userRoleService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserService(UserRepository userRepository, UserRoleService userRoleService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.userRoleService = userRoleService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public User findByEmail(String email){
@@ -36,36 +44,41 @@ public class UserService implements UserDetailsService{
         return userRepository.findByConftoken(token);
     }
 
+    public User findById(Long id){return userRepository.findById(id); }
+
+    public Set<User> findByBanned(){return userRepository.findByBanned(true);}
 
 
     public void saveUser(User user){
 
-        Set<UserRole> d = new HashSet<>();
-        if(roleRepository.findByRole("ROLE_USER")== null){
-            UserRole x = new UserRole();
-            x.setRole("ROLE_USER");
-            roleRepository.save(x);
+        if(user.getUsername().equals("admin")){
+            Set<UserRole> d = new HashSet<>();
 
-            d.add(roleRepository.findByRole("ROLE_USER"));
+            userRoleService.newUserRole("ROLE_ADMIN");
+            d.add(userRoleService.findByRole("ROLE_ADMIN"));
+            user.setRoles(d);
         }
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-        if(user.getUsername() == "admin"){
-            UserRole c = new UserRole();
-            c.setRole("ROLE_ADMIN");
-            d.add(roleRepository.findByRole("ROLE_ADMIN"));
-        }
-        user.setRoles(d);
         userRepository.save(user);
     }
+    public void updateUser(User x){
+        userRepository.save(x);
+    }
+
+    @Transactional(propagation= Propagation.REQUIRED, readOnly = false)
+    public void unbanUser(String username){
+        userRepository.unbanUser(username);
+    }
+
 
     @Override
     @Transactional(propagation= Propagation.REQUIRED, readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User us = userRepository.findByUsername(username);
-        if(us == null){
+        User user = userRepository.findByUsername(username);
+        if(user == null){
             return null;
         }
-
-        return new org.springframework.security.core.userdetails.User(username, us.getPassword(),us.getAuthorities() );
+        return new org.springframework.security.core.userdetails.User(username, user.getPassword(),true,true,true, !user.isBanned(), user.getAuthorities() );
     }
 }

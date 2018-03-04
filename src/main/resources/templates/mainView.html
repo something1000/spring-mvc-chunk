@@ -9,6 +9,8 @@
     <div sec:authorize="isAuthenticated()">
         This content is only shown to authenticated users.
     </div>
+
+    <div th:if="${#httpServletRequest.getAttribute('SPRING_SECURITY_LAST_EXCEPTION')}" th:text="${#httpServletRequest.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').getMessage()}">xd</div>
 </div>
 </body>
 </html>

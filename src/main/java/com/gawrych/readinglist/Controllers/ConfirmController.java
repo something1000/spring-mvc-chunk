@@ -1,5 +1,7 @@
-package com.gawrych.readinglist;
+package com.gawrych.readinglist.Controllers;
 
+import com.gawrych.readinglist.Model.User;
+import com.gawrych.readinglist.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

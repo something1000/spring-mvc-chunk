@@ -1,10 +1,10 @@
-package com.gawrych.readinglist;
+package com.gawrych.readinglist.Model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -17,6 +17,11 @@ public class UserRole implements Serializable{
     private String role;
 
 
+    public UserRole(){}
+
+    public UserRole(String role) {
+        this.role = role;
+    }
 
     public String getRole() {
         return role;
@@ -25,9 +30,9 @@ public class UserRole implements Serializable{
     public void setRole(String role) {
         this.role = role;
     }
+
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
-
 
     public Set<User> getUsers() {
         return users;

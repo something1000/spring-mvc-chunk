@@ -1,4 +1,4 @@
-package com.gawrych.readinglist;
+package com.gawrych.readinglist.Model;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

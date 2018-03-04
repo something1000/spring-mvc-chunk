@@ -1,24 +1,15 @@
-package com.gawrych.readinglist;
+package com.gawrych.readinglist.Model;
 
-import com.sun.javafx.beans.IDProperty;
-import org.hibernate.Hibernate;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.relation.Role;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,11 +17,20 @@ import java.util.Set;
 public class User implements UserDetails {
 
     @Id
-    @Column(name="username")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
+    private Long id;
+
+    @NotEmpty
+    @Column(name="username", unique = true)
     private String username;
 
     @Column(name="password")
     private String password;
+
+
+    @Transient
+    private String reapeatpassword;
 
     @NotEmpty
     @Column(name="email",nullable = false, unique = true)
@@ -55,7 +55,7 @@ public class User implements UserDetails {
 
     @ManyToMany(cascade = CascadeType.ALL)
 
-    @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "username"),
+    @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "role"))
 
     private Set<UserRole> roles;
@@ -124,7 +124,13 @@ public class User implements UserDetails {
         this.conftoken = conftoken;
     }
 
+    public String getReapeatpassword() {
+        return reapeatpassword;
+    }
 
+    public void setReapeatpassword(String reapeatpassword) {
+        this.reapeatpassword = reapeatpassword;
+    }
 
 
     @Override
