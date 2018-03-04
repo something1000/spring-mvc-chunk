@@ -62,8 +62,8 @@ public class UserService implements UserDetailsService{
 
         userRepository.save(user);
     }
-    public void updateUser(User x){
-        userRepository.save(x);
+    public void updateUser(User user){
+        userRepository.save(user);
     }
 
     @Transactional(propagation= Propagation.REQUIRED, readOnly = false)
