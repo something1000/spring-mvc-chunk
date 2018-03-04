@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Controller
@@ -35,6 +37,7 @@ public class RegisterController {
     public String banUser(@PathVariable("id") Long id){
         User x = userService.findById(id);
         x.setBanned(true);
+        x.setBan_date(LocalDate.of(2018,3,5));
         userService.updateUser(x);
         return "redirect:/";
     }

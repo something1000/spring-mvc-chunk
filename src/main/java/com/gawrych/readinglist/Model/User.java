@@ -1,5 +1,6 @@
 package com.gawrych.readinglist.Model;
 
+import com.gawrych.readinglist.Converters.LocalDateAttributeConverter;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,6 +8,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,6 +48,7 @@ public class User implements UserDetails {
 
     @Value("null")
     @Column(name="ban_date", nullable = true)
+    @Convert(converter = LocalDateAttributeConverter.class)
     private LocalDate ban_date;
 
     @Value("null")
