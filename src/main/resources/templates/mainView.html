@@ -20,6 +20,10 @@
 
         </form>
 
+        <div th:if="${chunks!=null}" th:each="chunk : ${chunks}">
+            <span th:text="*{chunk.getContent()}">...</span>
+        </div>
+
         This content is only shown to authenticated users.
     </div>
 

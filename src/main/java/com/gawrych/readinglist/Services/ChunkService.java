@@ -4,6 +4,9 @@ import com.gawrych.readinglist.Model.ChunkEntity;
 import com.gawrych.readinglist.Model.ChunkRepository;
 import com.gawrych.readinglist.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -27,5 +30,9 @@ public class ChunkService {
 
     public void saveChunk(ChunkEntity chunk){
         chunkRepository.save(chunk);
+    }
+    public Page<ChunkEntity> getChunkPage(int pageNumber, int pageSize){
+        PageRequest page = new PageRequest(pageNumber, pageSize, Sort.Direction.DESC, "postdate");
+        return chunkRepository.findAll(page);
     }
 }

@@ -1,9 +1,14 @@
 package com.gawrych.readinglist.Model;
 
 
+import com.gawrych.readinglist.Converters.LocalDateAttributeConverter;
+import com.gawrych.readinglist.Converters.LocalDateTimeAttributeConverter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name="chunks")
@@ -22,6 +27,10 @@ public class ChunkEntity {
     @Size(max=500)
     @Column(name = "content")
     private String content;
+
+    @Column(name = "date")
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
+    private LocalDateTime postdate;
 
 
     public Long getId() {
@@ -46,5 +55,13 @@ public class ChunkEntity {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public LocalDateTime getPostdate() {
+        return postdate;
+    }
+
+    public void setPostdate(LocalDateTime postdate) {
+        this.postdate = postdate;
     }
 }
