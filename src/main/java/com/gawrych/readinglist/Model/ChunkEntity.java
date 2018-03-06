@@ -7,6 +7,7 @@ import com.gawrych.readinglist.Converters.LocalDateTimeAttributeConverter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -64,4 +65,5 @@ public class ChunkEntity {
     public void setPostdate(LocalDateTime postdate) {
         this.postdate = postdate;
     }
+
 }

@@ -32,7 +32,11 @@ public class ChunkService {
         chunkRepository.save(chunk);
     }
     public Page<ChunkEntity> getChunkPage(int pageNumber, int pageSize){
+
         PageRequest page = new PageRequest(pageNumber, pageSize, Sort.Direction.DESC, "postdate");
         return chunkRepository.findAll(page);
+    }
+    public Long getNumberOfChunks(){
+        return chunkRepository.count();
     }
 }

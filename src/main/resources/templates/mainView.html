@@ -20,9 +20,23 @@
 
         </form>
 
-        <div th:if="${chunks!=null}" th:each="chunk : ${chunks}">
-            <span th:text="*{chunk.getContent()}">...</span>
+        <div >
+            <div th:if="${chunks!=null}" th:each="chunk : ${chunks}" style="margin:5px;border-color: #000;border:1px;float:left;width:50%;padding:5px;background-color:#26fa99">
+
+                <div style="width:100%;float:right;font-family: Consolas; font-size: 10px; color:#112233">
+                <span sec:authorize="hasRole('ROLE_ADMIN')" style="float:left"><a th:href="@{/delete/{id}(id=${chunk.getId()})}">x</a></span>
+                <span style="float:right;"><span th:text="*{T(java.time.Duration).between(chunk.getPostdate(),T(java.time.LocalDateTime).now()).toMinutes()}"></span>minut temu</span>
+                </div>
+
+                <span style="color:#f0f0f0" th:text="*{chunk.getContent()}">...</span>
+            </div>
         </div>
+
+
+
+
+
+        <div th:if="${pages != null}" th:text="*{pages}">xD</div>
 
         This content is only shown to authenticated users.
     </div>
