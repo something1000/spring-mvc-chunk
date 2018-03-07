@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
+<head>
+    <title tiles:fragment="title">Messages : Create</title>
+</head>
+<body>
+<div tiles:fragment="content">
+    <form name="f" th:action="@{'/delete/' +${chunk.getId()}}" method="post">
+        <fieldset>
+            <legend>Deleting Chunk</legend>
+
+            <div th:if="${chunk}"  style="margin:5px;border-color: #000;border:1px;float:left;width:50%;padding:5px;background-color:#26fa99">
+                <div style="width:100%;float:right;font-family: Consolas; font-size: 10px; color:#112233">
+                    <span style="float:right;"><span th:text="*{T(java.time.Duration).between(chunk.getPostdate(),T(java.time.LocalDateTime).now()).toMinutes()}"></span>minut temu</span>
+                    <span style="color:#f0f0f0" th:text="*{chunk.getContent()}">...</span>
+                </div>
+            </div>
+
+            <label for="reason">Reason</label>
+            <input type="text" id="reason" name="reason"/>
+            <div class="form-actions">
+                <button type="submit" class="btn">Delete</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>

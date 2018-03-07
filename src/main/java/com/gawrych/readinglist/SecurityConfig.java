@@ -30,8 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/chunk").permitAll()
-                .antMatchers("/main").hasAnyRole("USER")
+                .antMatchers("/").permitAll()
                 .antMatchers("/ban/**").hasAnyRole("ADMIN")
+                .antMatchers("/delete/**").hasRole("ADMIN")
             .and()
             .formLogin().loginPage("/login").failureForwardUrl("/");
     }

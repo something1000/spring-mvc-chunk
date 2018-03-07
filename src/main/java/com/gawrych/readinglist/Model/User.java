@@ -64,6 +64,11 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name="role_id", referencedColumnName = "role"))
     private Set<UserRole> roles;
 
+
+    @OneToMany(mappedBy = "deleter")
+    private Set<ChunkEntity> deletedChunks;
+
+
     public Long getId(){return id;};
 
     public Set<ChunkEntity> getChunks(){

@@ -33,6 +33,14 @@ public class ChunkEntity {
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime postdate;
 
+    private boolean isDeleted;
+
+    private String deleteReason;
+
+    @ManyToOne
+    @JoinColumn(name = "deleter_id")
+    private User deleter;
+
 
     public Long getId() {
         return id;
@@ -66,4 +74,27 @@ public class ChunkEntity {
         this.postdate = postdate;
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public String getDeleteReason() {
+        return deleteReason;
+    }
+
+    public void setDeleteReason(String deleteReason) {
+        this.deleteReason = deleteReason;
+    }
+
+    public User getDeleter() {
+        return deleter;
+    }
+
+    public void setDeleter(User deleter) {
+        this.deleter = deleter;
+    }
 }
