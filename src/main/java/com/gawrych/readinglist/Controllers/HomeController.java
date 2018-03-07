@@ -26,10 +26,8 @@ public class HomeController {
     int pageSize;
     @RequestMapping(value = {"/","/main"}, method = RequestMethod.GET)
     public String home(@RequestParam(name="page",defaultValue = "1") int page, Model model, Principal user){
-        if(user!= null) {
             model.addAttribute("chunks", chunkService.getChunkPage(page-1,pageSize));
             model.addAttribute("pages",chunkService.getNumberOfChunks()/10+1);
-        }
         return "mainView";
     }
 
