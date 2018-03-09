@@ -10,74 +10,52 @@
 
 
 </head>
-<body class="bg-light">
-<div>
+<body class="bg-mcolor">
+<div class="row">
 
-    <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Offcanvas navbar</a>
-        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div th:replace="fragments/header :: header"></div>
+    <div class="col-sm-12 col-md-8 my-3 p-3 bg-mdarker rounded box-shadow">
 
-        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Dashboard <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Notifications</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Switch account</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Settings</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
-                </li>
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
-
-
-    <div sec:authorize="isAuthenticated()">
-
-        <form method="post" th:action="@{/chunk}">
-            <fieldset>
-                <legend>Add Chunk</legend>
-                <label for="content">Password</label>
-                <textarea id="content"  name="content"> </textarea>
-                <div class="form-actions">
-                    <button type="submit" class="btn btn-success">Chunk !</button>
-                </div>
-            </fieldset>
-
-        </form>
-        This content is only shown to authenticated users.
-    </div>
-
-    <div >
-        <div th:if="${chunks!=null}" th:each="chunk : ${chunks}" style="margin:5px;border-color: #000;border:1px;float:left;width:50%;padding:5px;background-color:#26fa99">
-            <div style="width:100%;float:right;font-family: Consolas; font-size: 10px; color:#112233">
-                <span sec:authorize="hasRole('ROLE_ADMIN')" style="float:left"><a th:href="@{/delete/{id}(id=${chunk.getId()})}">x</a></span>
-                <span style="float:right;"><span th:text="*{T(java.time.Duration).between(chunk.getPostdate(),T(java.time.LocalDateTime).now()).toMinutes()}"></span>minut temu</span>
+        <form sec:authorize="isAuthenticated()" th:action="@{/chunk}" method="post">
+            <div class="form-group">
+                <h6 class="border-bottom border-gray pb-1 mb-1 text-white">Add Chunk</h6>
+                <textarea class="form-control " id="content" name="content" rows="3"></textarea>
             </div>
-            <span style="color:#f0f0f0" th:utext="${chunk.isDeleted()} ? ${@environment.getProperty('chunk.view.delete-message')} : *{chunk.getContent()}">.ąćł.</span>
+            <button type="submit" class="btn btn-chunk border-mcolor mb-2 col-12">Chunk !</button>
+        </form>
+
+        <h6 class="border-bottom border-gray pb-1 pl-2 mb-0 text-white">Ostatnie:</h6>
+
+        <div th:if="${chunks} != null" th:each="chunk : ${chunks}" >
+        <div th:replace="fragments/single_chunk :: single_chunk"></div>
         </div>
-        ąćęłó
+           <div class="d-inline-block text-right p-1" th:if="${pages != null}" th:each="i : ${pages<10 ? #numbers.sequence(1, pages): #numbers.sequence(1,10)}">
+               <a th:href="@{/main?page={pg}(pg=${i})}"><span th:text="${i}"></span></a>
+           </div>
     </div>
 
-    <div th:if="${pages != null}" th:text="*{pages}">xD</div>
+    <div class="col-md-4 offset-8 my-3 position-fixed my-4 p-4 pre-scrollable" >
+        <div class="col-md-12 bg-mdarker rounded box-shadow pt-3" >
+            <h6 class="border-bottom border-gray pt-1 mb-0 text-white">Profil:</h6>
+            <div class="row">
+                <div class="col-md-5" >
+                    <img class="rounded mt-2 mw-100" src="/images/error.png"/>
+                </div>
+                <div class="col-md-7 mt-2">
+                    <strong class="text-white" style="font-size:24px" th:text="${#authorization.expression('isAuthenticated()')? #authentication.getName():'NIE'}">xs</strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5" >
+                    <img class="rounded mt-2 mw-100" src="/images/error.png"/>
+                </div>
+                <div class="col-md-7 mt-2">
+                    <strong class="text-white" style="font-size:24px" th:text="${#authorization.expression('isAuthenticated()')? #authentication.getName():'NIE'}">xs</strong>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     <div th:if="${#httpServletRequest.getAttribute('SPRING_SECURITY_LAST_EXCEPTION')}" th:text="${#httpServletRequest.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').getMessage()}">xd</div>
 </div>

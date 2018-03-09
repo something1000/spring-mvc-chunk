@@ -1,3 +1,5 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap-glyphicons.css");
+
 html,
 body {
     overflow-x: hidden; /* Prevent scroll on narrow devices */
@@ -78,3 +80,60 @@ body {
 .lh-100 { line-height: 1; }
 .lh-125 { line-height: 1.25; }
 .lh-150 { line-height: 1.5; }
+
+.border-darkgray{
+    border-color: #0b1824 !important;
+}
+
+.bg-mcolor{
+    background-color: #0c2533 !important;
+}
+
+.bg-mdarker{
+    background-color: #0b1824 !important;
+}
+
+
+.singlechunk{
+    transition: .2s;
+    background-color: #0c2533 !important;
+}
+.singlechunk:hover {
+    transform: scale(1.02); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+    background-blend-mode: darken;
+    background-color: #0f3344 !important;
+}
+
+.btn-chunk {
+    color: #fff;
+    background-color: #114357;
+    border-color: #124057 !important;
+}
+
+.btn-chunk:hover {
+    color: #fff;
+    background-color: #0b2734;
+    border-color: #124057;
+}
+
+.btn-primary:focus, .btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #0062cc;
+    border-color: #005cbf;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+}

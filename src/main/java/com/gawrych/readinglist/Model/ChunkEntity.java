@@ -25,7 +25,7 @@ public class ChunkEntity {
     private User author;
 
     @NotNull
-    @Size(max=500)
+    @Size(max=2500)
     @Column(name = "content")
     private String content;
 

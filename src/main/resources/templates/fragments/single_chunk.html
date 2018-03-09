@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title tiles:fragment="title">Chunky !</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/4.0.0/css/bootstrap.min.css"/>
+    <link href="/css/offcanvas.css" rel="stylesheet">
+
+
+</head>
+<body class="bg-mcolor">
+<div th:fragment="single_chunk"  class="singlechunk my-3 pb-3 pl-3 pr-3 pt-1 media rounded box-shadow">
+
+    <img src="/images/error.png" width="32px" height="32px" alt="" class="mr-2 rounded align-self-start mt-1">
+    <div class="media-body pb-1 mb-0 small lh-125">
+        <div class="mt-0 border-darkgray border-bottom d-block">
+            <a th:href="@{'user/' + *{chunk.getAuthor().getUsername()}}"> <strong class="d-inline-block text-gray-dark py-1 mt-0" th:text="'@' + *{chunk.getAuthor().getUsername()}">@username</strong></a>
+            <div sec:authorize="hasRole('ADMIN')" class="d-inline-block float-right py-1 pl-1">
+                <a class="text-danger" th:href="@{/delete/{id}(id=${chunk.getId()})}"> <span class="glyphicon glyphicon-remove"></span></a>
+            </div>
+            <span class="time d-inline-block float-right text-right text-info py-1 mt-0" th:text="*{T(java.time.Duration).between(chunk.getPostdate(), T(java.time.LocalDateTime).now()).toMinutes()}">Czas postu</span>
+
+        </div>
+        <span class="d-block pt-1 text-white" th:utext="*{chunk.isDeleted()} ? ${@environment.getProperty('chunk.view.delete-message')} : *{chunk.getContent()}">CHUNK</span>
+    </div>
+</div>
+
+</div>
+</body>
+</html>
