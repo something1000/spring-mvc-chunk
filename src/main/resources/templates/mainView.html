@@ -34,24 +34,11 @@
            </div>
     </div>
 
-    <div class="col-md-4 offset-8 my-3 position-fixed my-4 p-4 pre-scrollable" >
+    <div class="col-md-4 offset-8 position-fixed my-4-5 p-4 pre-scrollable" >
         <div class="col-md-12 bg-mdarker rounded box-shadow pt-3" >
             <h6 class="border-bottom border-gray pt-1 mb-0 text-white">Profil:</h6>
-            <div class="row">
-                <div class="col-md-5" >
-                    <img class="rounded mt-2 mw-100" src="/images/error.png"/>
-                </div>
-                <div class="col-md-7 mt-2">
-                    <strong class="text-white" style="font-size:24px" th:text="${#authorization.expression('isAuthenticated()')? #authentication.getName():'NIE'}">xs</strong>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5" >
-                    <img class="rounded mt-2 mw-100" src="/images/error.png"/>
-                </div>
-                <div class="col-md-7 mt-2">
-                    <strong class="text-white" style="font-size:24px" th:text="${#authorization.expression('isAuthenticated()')? #authentication.getName():'NIE'}">xs</strong>
-                </div>
+            <div th:remove="tag" th:with="sidebarfragment = ${#authorization.expression('isAuthenticated()')} ? 'profile' : 'loginform'">
+                <div class="row" th:remove="tag" th:replace="fragments/sidebar :: ${sidebarfragment}">Wyswietlanie profilu/logowanie</div>
             </div>
 
         </div>
