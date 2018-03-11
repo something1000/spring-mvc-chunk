@@ -10,12 +10,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Set;
 
 @Service("chunkService")
 public class ChunkService {
     private ChunkRepository chunkRepository;
     private UserService userService;
+
     @Autowired
     public ChunkService(ChunkRepository chunkRepository, UserService userService) {
         this.chunkRepository = chunkRepository;
@@ -33,11 +35,12 @@ public class ChunkService {
     public void saveChunk(ChunkEntity chunk){
         chunkRepository.save(chunk);
     }
-    public Page<ChunkEntity> getChunkPage(int pageNumber, int pageSize){
 
+    public Page<ChunkEntity> getChunkPage(int pageNumber, int pageSize){
         PageRequest page = new PageRequest(pageNumber, pageSize, Sort.Direction.DESC, "postdate");
         return chunkRepository.findAll(page);
     }
+
     public Long getNumberOfChunks(){
         return chunkRepository.count();
     }
@@ -54,4 +57,9 @@ public class ChunkService {
         chunkRepository.save(toDelete);
         return true;
     }
+
+    public List<ChunkEntity> getChunkReplies(Long id){
+        return chunkRepository.findById(id).getReplies();
+    }
+
 }

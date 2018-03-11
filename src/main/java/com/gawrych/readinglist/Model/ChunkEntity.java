@@ -1,15 +1,17 @@
 package com.gawrych.readinglist.Model;
 
 
-import com.gawrych.readinglist.Converters.LocalDateAttributeConverter;
 import com.gawrych.readinglist.Converters.LocalDateTimeAttributeConverter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="chunks")
@@ -41,6 +43,12 @@ public class ChunkEntity {
     @JoinColumn(name = "deleter_id")
     private User deleter;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "replyTo")
+    private Set<ChunkEntity> replies;
+
+    @ManyToOne
+    @JoinColumn(name="replyTo_id")
+    private ChunkEntity replyTo;
 
     public Long getId() {
         return id;
@@ -96,5 +104,31 @@ public class ChunkEntity {
 
     public void setDeleter(User deleter) {
         this.deleter = deleter;
+    }
+
+    public List<ChunkEntity> getReplies() {
+        List<ChunkEntity> sorted = new ArrayList<>(replies);
+
+        Collections.sort(sorted, (x, y)->{
+            if(Duration.between(x.getPostdate(), y.getPostdate()).isNegative()){
+                return -1;
+            } else if(Duration.between(x.getPostdate(), y.getPostdate()).isZero()) {
+                return 0;
+            }
+            return -1;
+        } );
+        return sorted;
+    }
+
+    public void setReplies(Set<ChunkEntity> replies) {
+        this.replies = replies;
+    }
+
+    public ChunkEntity getReplyTo() {
+        return replyTo;
+    }
+
+    public void setReplyTo(ChunkEntity replyTo) {
+        this.replyTo = replyTo;
     }
 }

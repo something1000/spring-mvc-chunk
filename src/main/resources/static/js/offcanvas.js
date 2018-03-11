@@ -20,3 +20,15 @@ $( ".time" ).each(function( index ) {
         $(this).text($(this).text().concat(" min. temu"));
     }
 });
+
+function showReplyForm(where){
+
+    var all = document.getElementsByClassName("replyform");
+var i;
+    for(i=0;i<all.length;i++){
+        all[i].style.display = "none";
+    }
+    console.log(where.parentNode);
+    where.parentNode.getElementsByClassName("replyform")[0].style.display = "inline";
+
+}

@@ -40,7 +40,6 @@
             <div th:remove="tag" th:with="sidebarfragment = ${#authorization.expression('isAuthenticated()')} ? 'profile' : 'loginform'">
                 <div class="row" th:remove="tag" th:replace="fragments/sidebar :: ${sidebarfragment}">Wyswietlanie profilu/logowanie</div>
             </div>
-
         </div>
     </div>
 
