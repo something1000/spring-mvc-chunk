@@ -4,7 +4,7 @@
 </head>
 <body>
 <div tiles:fragment="content">
-    <form name="f" th:action="@{'/delete/' +${chunk.getId()}}" method="post">
+    <form name="f" th:action="@{#}" method="post">
         <fieldset>
             <legend>Deleting Chunk</legend>
 
@@ -16,9 +16,9 @@
             </div>
 
             <label for="reason">Reason</label>
-            <input type="text" id="reason" name="reason"/>
+            <input type="text" id="reason" name="reason" th:value="${chunk.isDeleted()}?${chunk.getDeleteReason()} : ''"/>
             <div class="form-actions">
-                <button type="submit" class="btn">Delete</button>
+                <button type="submit" class="btn" th:text="${chunk.isDeleted()}?'Undelete':'Delete'">Delete</button>
             </div>
         </fieldset>
     </form>

@@ -1,8 +1,6 @@
 package com.gawrych.readinglist.Services;
 
-import com.gawrych.readinglist.Model.ChunkEntity;
-import com.gawrych.readinglist.Model.ChunkRepository;
-import com.gawrych.readinglist.Model.User;
+import com.gawrych.readinglist.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,11 +15,13 @@ import java.util.Set;
 public class ChunkService {
     private ChunkRepository chunkRepository;
     private UserService userService;
+    private ReplyChunkRepository replyChunkRepository;
 
     @Autowired
-    public ChunkService(ChunkRepository chunkRepository, UserService userService) {
+    public ChunkService(ChunkRepository chunkRepository, UserService userService, ReplyChunkRepository replyChunkRepository) {
         this.chunkRepository = chunkRepository;
         this.userService = userService;
+        this.replyChunkRepository = replyChunkRepository;
     }
 
     public Set<ChunkEntity> findChunkByAuthor(User author){
@@ -36,6 +36,11 @@ public class ChunkService {
         chunkRepository.save(chunk);
     }
 
+    public void saveChunkReply(ReplyChunkEntity reply){
+        replyChunkRepository.save(reply);
+    }
+
+
     public Page<ChunkEntity> getChunkPage(int pageNumber, int pageSize){
         PageRequest page = new PageRequest(pageNumber, pageSize, Sort.Direction.DESC, "postdate");
         return chunkRepository.findAll(page);
@@ -43,6 +48,10 @@ public class ChunkService {
 
     public Long getNumberOfChunks(){
         return chunkRepository.count();
+    }
+
+    public int getNumberOfRepliesToChunk(Long id){
+        return chunkRepository.findById(id).getReplies().size();
     }
 
     @Transactional
@@ -58,8 +67,19 @@ public class ChunkService {
         return true;
     }
 
-    public List<ChunkEntity> getChunkReplies(Long id){
-        return chunkRepository.findById(id).getReplies();
+    @Transactional
+    public Boolean undeleteById(Long id, String username){
+        ChunkEntity toDelete = chunkRepository.findById(id);
+
+        if(toDelete == null) return false;
+
+        toDelete.setDeleted(false);
+        toDelete.setDeleteReason(null);
+        toDelete.setDeleter(null);
+        chunkRepository.save(toDelete);
+        return true;
     }
+
+
 
 }

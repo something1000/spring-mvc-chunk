@@ -32,3 +32,37 @@ var i;
     where.parentNode.getElementsByClassName("replyform")[0].style.display = "inline";
 
 }
+
+function switchto(zobacz){
+    if(zobacz == 'pass'){
+        document.getElementById(zobacz).style.display = 'block';
+        document.getElementById('profil').style.display='none';
+    } else{
+        document.getElementById(zobacz).style.display = 'block';
+        document.getElementById('pass').style.display='none';
+    }
+}
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        if(!input.files[0].name.slice(input.files[0].name.length-4,input.files[0].name.length).localeCompare(".jpg") ||
+            !input.files[0].name.slice(input.files[0].name.length-4,input.files[0].name.length).localeCompare(".png")){
+
+        reader.onload = function (e) {
+            $('#imgpreview').attr('src', e.target.result);
+        };
+
+
+        reader.readAsDataURL(input.files[0]);
+        } else {
+            $("#avatar").val("");
+            alert("Wybrano nie prawidłowy format pliku!");
+        }
+    }
+}
+
+$("#avatar").change(function(){
+    readURL(this);
+});

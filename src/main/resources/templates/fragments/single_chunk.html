@@ -10,7 +10,7 @@
 
 </head>
 <body class="bg-mcolor">
-<div th:fragment="single_chunk" th:if="${chunk.getReplyTo() == null}" class="singlechunk my-3 pb-3 pl-3 pr-3 pt-1 media rounded box-shadow">
+<div th:fragment="single_chunk" class="singlechunk my-3 pb-3 pl-3 pr-3 pt-1 media rounded box-shadow">
 
     <img src="/images/error.png" width="32px" height="32px" alt="" class="mr-2 rounded align-self-start mt-1">
     <div class="media-body pb-1 mb-0 small lh-125">
@@ -25,7 +25,7 @@
         <span class="d-block pt-1 text-white"th:utext="*{chunk.isDeleted()} ? ${@environment.getProperty('chunk.view.delete-message')} : *{chunk.getContent()}">CHUNK</span>
         <div id="reply" class ="d-block pt-1 my-0 text-white">
             <button class="btn btn-xs btn-primary small text" sec:authorize="isAuthenticated()" onmousedown="showReplyForm(this)">Odpowiedz</button>
-            <form class="replyform" sec:authorize="isAuthenticated()" th:action="@{/chunk?reply={id}(id=${chunk.getId()})}" method="post" style="display: none">
+            <form class="replyform" sec:authorize="isAuthenticated()" th:action="@{/reply?id={id}(id=${chunk.getId()})}" method="post" style="display: none">
                 <div class="form-group">
                     <h6 class="border-bottom border-gray pb-1 mb-1 text-white">Add Chunk</h6>
                     <textarea class="form-control " id="content" name="content" rows="3"></textarea>
@@ -42,10 +42,9 @@
                     <div class="mt-0 border-darkgray border-bottom d-block">
                         <a th:href="@{'user/' + ${reply.getAuthor().getUsername()}}"> <strong class="d-inline-block text-gray-dark py-1 mt-0" th:text="'@' + ${reply.getAuthor().getUsername()}">@username</strong></a>
                         <div sec:authorize="hasRole('ADMIN')" class="d-inline-block float-right py-1 pl-1">
-                            <a class="text-danger" th:href="@{/delete/{id}(id=${reply.getId()})}"> <span class="glyphicon glyphicon-remove"></span></a>
+                            <a class="text-danger" th:href="@{/deletereply/{id}(id=${reply.getId()})}"> <span class="glyphicon glyphicon-remove"></span></a>
                         </div>
                         <span class="time d-inline-block float-right text-right text-info py-1 mt-0" th:text="*{T(java.time.Duration).between(reply.getPostdate(), T(java.time.LocalDateTime).now()).toMinutes()}">Czas postu</span>
-
                     </div>
                     <span class="d-block pt-1 text-white"th:utext="*{reply.isDeleted()} ? ${@environment.getProperty('chunk.view.delete-message')} : *{reply.getContent()}">CHUNK</span>
                 </div>

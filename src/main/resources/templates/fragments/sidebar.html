@@ -11,14 +11,16 @@
 
 </head>
 <body class="bg-mcolor">
+
+
 <div th:fragment="profile" class="row">
     <div class="col-md-5" >
         <img class="rounded mt-2 mw-100" src="/images/error.png"/>
     </div>
     <div class="col-md-7 mt-2">
-
         <strong class="text-white row" style="font-size:24px" th:text="${#authentication.getName()}"></strong>
-        <a class="row" th:href="@{profile/{username}(username = ${#authentication.getName()})}"><button class="btn btn-dark">Pokaz wpisy</button></a>
+        <a class="row" th:href="@{user/{username}(username = ${#authentication.getName()})}"><button class="btn btn-dark">Pokaz wpisy</button></a>
+        <a class="row my-1" th:href="@{setting}"><button class="btn btn-dark">Edytuj Profil</button></a>
     </div>
 </div>
 

@@ -6,16 +6,11 @@ import com.gawrych.readinglist.Converters.LocalDateTimeAttributeConverter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name="chunks")
-public class ChunkEntity implements IChunkEntity{
+@Table(name="chunk_replies")
+public class ReplyChunkEntity implements IChunkEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -43,80 +38,85 @@ public class ChunkEntity implements IChunkEntity{
     @JoinColumn(name = "deleter_id")
     private User deleter;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "replyTo")
-    private List<ReplyChunkEntity> replies;
+    @ManyToOne
+    @JoinColumn(name="replyTo_id")
+    private ChunkEntity replyTo;
 
+    @Override
     public Long getId() {
-        return id;
+        return this.id;
     }
 
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
+    @Override
     public User getAuthor() {
-        return author;
+        return this.author;
     }
 
+    @Override
     public void setAuthor(User author) {
         this.author = author;
     }
 
+    @Override
     public String getContent() {
-        return content;
+        return this.content;
     }
 
+    @Override
     public void setContent(String content) {
         this.content = content;
     }
 
+    @Override
     public LocalDateTime getPostdate() {
-        return postdate;
+        return this.postdate;
     }
 
+    @Override
     public void setPostdate(LocalDateTime postdate) {
         this.postdate = postdate;
     }
 
+    @Override
     public boolean isDeleted() {
-        return isDeleted;
+        return this.isDeleted;
     }
 
+    @Override
     public void setDeleted(boolean deleted) {
-        isDeleted = deleted;
+        this.isDeleted = deleted;
     }
 
+    @Override
     public String getDeleteReason() {
-        return deleteReason;
+        return this.deleteReason;
     }
 
+    @Override
     public void setDeleteReason(String deleteReason) {
         this.deleteReason = deleteReason;
     }
 
+    @Override
     public User getDeleter() {
-        return deleter;
+        return this.deleter;
     }
 
+    @Override
     public void setDeleter(User deleter) {
         this.deleter = deleter;
     }
 
-    public List<ReplyChunkEntity> getReplies() {
-        List<ReplyChunkEntity> sorted = new ArrayList<ReplyChunkEntity>(replies);
-
-        Collections.sort(sorted, (x, y)->{
-            if(Duration.between(x.getPostdate(), y.getPostdate()).isNegative()){
-                return -1;
-            } else if(Duration.between(x.getPostdate(), y.getPostdate()).isZero()) {
-                return 0;
-            }
-            return -1;
-        } );
-        return sorted;
+    public ChunkEntity getReplyTo() {
+        return replyTo;
     }
 
-    public void setReplies(List<ReplyChunkEntity> replies) {
-        this.replies = replies;
+    public void setReplyTo(ChunkEntity replyTo) {
+        this.replyTo = replyTo;
     }
 }
