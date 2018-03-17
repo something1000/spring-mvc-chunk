@@ -26,10 +26,10 @@ public class ReplyController {
     }
 
     @RequestMapping(value="/reply", method = RequestMethod.POST)
-    public String addReply(@Valid ReplyChunkEntity replyChunkEntity, @RequestParam(required = true,name="id") Long id, Principal principal, HttpServletRequest request){
+    public String addReply(@Valid ReplyChunkEntity replyChunkEntity, @RequestParam(required = true,name="pid") Long pid, Principal principal, HttpServletRequest request){
         replyChunkEntity.setPostdate(LocalDateTime.now());
         replyChunkEntity.setAuthor(userService.findByUsername(principal.getName()));
-        replyChunkEntity.setReplyTo(chunkService.findChunkById(id));
+        replyChunkEntity.setReplyTo(chunkService.findChunkById(pid));
         chunkService.saveChunkReply(replyChunkEntity);
         return "redirect:"+request.getHeader("Referer");
     }

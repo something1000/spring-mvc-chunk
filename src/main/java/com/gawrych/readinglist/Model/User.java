@@ -46,6 +46,10 @@ public class User implements UserDetails {
     @Value("false")
     private boolean banned;
 
+    @Column(name="avatar")
+    @Value("false")
+    private boolean avatar;
+
     @Value("null")
     @Column(name="ban_date", nullable = true)
     @Convert(converter = LocalDateAttributeConverter.class)
@@ -156,6 +160,18 @@ public class User implements UserDetails {
             auth.add(new SimpleGrantedAuthority(u.getRole()));
         }
         return auth;
+    }
+
+    public boolean hasAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(boolean avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAvatar(){
+        return hasAvatar()?"avatars/"+getUsername()+".jpg" : "avatars/default.jpg";
     }
 
     @Override

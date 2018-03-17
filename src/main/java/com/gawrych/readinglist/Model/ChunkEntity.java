@@ -1,7 +1,9 @@
 package com.gawrych.readinglist.Model;
 
 
+import com.fasterxml.jackson.annotation.*;
 import com.gawrych.readinglist.Converters.LocalDateTimeAttributeConverter;
+import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,6 +24,8 @@ public class ChunkEntity implements IChunkEntity{
     @Column(name = "id")
     private Long id;
 
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @JoinColumn(name="author_id")
     private User author;
@@ -39,9 +43,11 @@ public class ChunkEntity implements IChunkEntity{
 
     private String deleteReason;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "deleter_id")
     private User deleter;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "replyTo")
     private List<ReplyChunkEntity> replies;
@@ -119,4 +125,13 @@ public class ChunkEntity implements IChunkEntity{
     public void setReplies(List<ReplyChunkEntity> replies) {
         this.replies = replies;
     }
+
+    @JsonProperty(value = "username")
+    public String getUsername(){
+        return author.getUsername();
+    }
+/*    @JsonProperty(value = "postdate_seconds")
+    public long getPostdateSeconds(){
+        return Duration.between(LocalDateTime.now(),this.postdate).toMinutes();
+    }*/
 }

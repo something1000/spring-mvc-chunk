@@ -34,9 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register").permitAll()
                 .antMatchers("/chunk").permitAll()
                 .antMatchers("/").permitAll()
-                .antMatchers("images/**").permitAll()
+                .antMatchers("/images/**").permitAll()
                 .antMatchers("/ban/**").hasAnyRole("ADMIN")
                 .antMatchers("/delete/**").hasRole("ADMIN")
+                .antMatchers("/test/**").permitAll()
             .and()
             .formLogin().loginPage("/login").failureForwardUrl("/");
     }

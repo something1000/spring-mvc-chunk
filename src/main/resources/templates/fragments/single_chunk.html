@@ -10,9 +10,9 @@
 
 </head>
 <body class="bg-mcolor">
-<div th:fragment="single_chunk" class="singlechunk my-3 pb-3 pl-3 pr-3 pt-1 media rounded box-shadow">
+<div th:fragment="single_chunk" class="singlechunk my-3 pb-3 pl-3 pr-3 pt-1 media rounded box-shadow" style="z-index: -3!important;">
 
-    <img src="/images/error.png" width="32px" height="32px" alt="" class="mr-2 rounded align-self-start mt-1">
+    <img th:src="${chunk.getAuthor().getAvatar()}" width="32px" height="32px" alt="" class="mr-2 rounded align-self-start mt-1">
     <div class="media-body pb-1 mb-0 small lh-125">
         <div class="mt-0 border-darkgray border-bottom d-block">
             <a th:href="@{'user/' + ${chunk.getAuthor().getUsername()}}"> <strong class="d-inline-block text-gray-dark py-1 mt-0" th:text="'@' + ${chunk.getAuthor().getUsername()}">@username</strong></a>
@@ -25,7 +25,7 @@
         <span class="d-block pt-1 text-white"th:utext="*{chunk.isDeleted()} ? ${@environment.getProperty('chunk.view.delete-message')} : *{chunk.getContent()}">CHUNK</span>
         <div id="reply" class ="d-block pt-1 my-0 text-white">
             <button class="btn btn-xs btn-primary small text" sec:authorize="isAuthenticated()" onmousedown="showReplyForm(this)">Odpowiedz</button>
-            <form class="replyform" sec:authorize="isAuthenticated()" th:action="@{/reply?id={id}(id=${chunk.getId()})}" method="post" style="display: none">
+            <form class="replyform" sec:authorize="isAuthenticated()" th:action="@{/reply?pid={pid}(pid=${chunk.getId()})}" method="post" style="display: none">
                 <div class="form-group">
                     <h6 class="border-bottom border-gray pb-1 mb-1 text-white">Add Chunk</h6>
                     <textarea class="form-control " id="content" name="content" rows="3"></textarea>
@@ -35,7 +35,7 @@
         </div>
 
         <div th:if="${chunk.getReplies()} != null" th:each="reply : ${chunk.getReplies().size()>1 ? chunk.getReplies().subList(0,2): chunk.getReplies()}" class="singlechunk-reply my-3 pb-3 pl-3 pr-3 pt-1 media rounded box-shadow">
-            <img src="/images/error.png" width="32px" height="32px" alt="" class="mr-2 rounded align-self-start mt-1">
+            <img th:src="${reply.getAuthor().getAvatar()}" width="32px" height="32px" alt="" class="mr-2 rounded align-self-start mt-1">
             <div class="media-body pb-1 mb-0 small lh-125">
 
                 <div>
@@ -51,13 +51,20 @@
 
             </div>
         </div>
-
+        <div class="row">
+        <div class="d-block col-12 text-center">
+            <span th:if="${chunk.getReplies().size()>2}">
+                 <button type="button" class="btn small btn-primary" th:onclick="'loadMore('+${chunk.getId()}+')'">Pokaz wszystkie</button>
+            </span>
+        </div>
+        </div>
     </div>
 
 
 </div>
-</div>
 
 </div>
+
+
 </body>
 </html>

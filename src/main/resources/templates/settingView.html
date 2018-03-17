@@ -14,7 +14,7 @@
 <div class="row">
 
     <div th:replace="fragments/header :: header"></div>
-    <div class="col-sm-12 col-md-8 my-3 p-3 bg-mdarker rounded box-shadow">
+    <div class="col-sm-12 col-md-8 my-3 ml-2 p-3 bg-mdarker rounded box-shadow position-relative" style="z-index:1">
 
         <h6 class="border-bottom border-gray pb-1 pl-2 mb-0 text-white">Ustawienia Profilu:</h6>
 
@@ -28,7 +28,7 @@
                 <form class="form-group my-5" th:action="@{/setting}" method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-4 align-middle">
-                            <img class="d-block mx-auto" id="imgpreview" th:src="@{images/error.png}" style="width:120px;" alt="your image" />
+                            <img class="d-block mx-auto" id="imgpreview" th:src="${user.hasAvatar()}? ${'avatars/'+ #authentication.getName()+'.jpg'}:'images/error.png'" style="width:120px;" alt="your image" />
                         </div>
                         <div class="form-group col-8">
                             <label class="text-white">Zmien Avatar:
@@ -47,12 +47,13 @@
         </div>
     </div>
 
-    <div class="d-sm-none d-md-inline col-md-4 offset-md-8 md-position-fixed my-4-5 p-4 pre-scrollable" >
+    <div class="d-sm-none d-md-inline col-md-4 offset-md-8 position-fixed my-3 pl-4" style="z-index:0!important;">
         <div class="col-md-12 bg-mdarker rounded box-shadow pt-3" >
             <h6 class="border-bottom border-gray pt-1 mb-0 text-white">Profil:</h6>
             <div th:remove="tag" th:with="sidebarfragment = ${#authorization.expression('isAuthenticated()')} ? 'profile' : 'loginform'">
                 <div class="row" th:remove="tag" th:replace="fragments/sidebar :: ${sidebarfragment}">Wyswietlanie profilu/logowanie</div>
             </div>
+
         </div>
     </div>
 

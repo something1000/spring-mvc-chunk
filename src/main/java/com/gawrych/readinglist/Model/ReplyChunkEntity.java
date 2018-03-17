@@ -1,6 +1,10 @@
 package com.gawrych.readinglist.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.gawrych.readinglist.Converters.LocalDateTimeAttributeConverter;
 
 import javax.persistence.*;
@@ -17,6 +21,8 @@ public class ReplyChunkEntity implements IChunkEntity{
     @Column(name = "id")
     private Long id;
 
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @JoinColumn(name="author_id")
     private User author;
@@ -38,6 +44,8 @@ public class ReplyChunkEntity implements IChunkEntity{
     @JoinColumn(name = "deleter_id")
     private User deleter;
 
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     @ManyToOne
     @JoinColumn(name="replyTo_id")
     private ChunkEntity replyTo;
@@ -118,5 +126,10 @@ public class ReplyChunkEntity implements IChunkEntity{
 
     public void setReplyTo(ChunkEntity replyTo) {
         this.replyTo = replyTo;
+    }
+
+    @JsonProperty(value = "username")
+    public String getAuthorUsername(){
+        return author.getUsername();
     }
 }

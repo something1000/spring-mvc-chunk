@@ -4,13 +4,12 @@ import com.gawrych.readinglist.Model.ChunkEntity;
 import com.gawrych.readinglist.Model.ReplyChunkEntity;
 import com.gawrych.readinglist.Services.ChunkService;
 import com.gawrych.readinglist.Services.UserService;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.HandlerMapping;
 
 import javax.validation.Valid;
@@ -22,7 +21,6 @@ public class ChunkController {
 
     private ChunkService chunkService;
     private UserService userService;
-
     @Autowired
     public ChunkController(ChunkService chunkService, UserService userService) {
         this.chunkService = chunkService;
@@ -35,6 +33,12 @@ public class ChunkController {
         chunk.setPostdate(LocalDateTime.now());
         chunkService.saveChunk(chunk);
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/getchunk", method=RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ChunkEntity getChunk(@RequestParam(name = "id") Long id, HttpServletRequest request){
+       return chunkService.findChunkById(id);
     }
 
 

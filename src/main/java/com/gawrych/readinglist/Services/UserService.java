@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService{
     public Set<User> findByBanned(){return userRepository.findByBanned(true);}
 
 
-    public void saveUser(User user){
+    public void registerUser(User user){
 
         if(user.getUsername().equals("admin")){
             Set<UserRole> d = new HashSet<>();
@@ -79,5 +79,11 @@ public class UserService implements UserDetailsService{
             return null;
         }
         return new org.springframework.security.core.userdetails.User(username, user.getPassword(),true,true,true, !user.isBanned(), user.getAuthorities() );
+    }
+
+    public void changeUserAvatar(String username, Boolean isSet){
+        User user = findByUsername(username);
+        user.setAvatar(isSet);
+        userRepository.save(user);
     }
 }
